@@ -33,7 +33,7 @@ new class extends Component
 
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                    <x-nav-link :href="route('login')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Login') }}
                     </x-nav-link>
                     <x-nav-link :href="route('register')" :active="request()->routeIs('register')" wire:navigate>
@@ -41,6 +41,20 @@ new class extends Component
                     </x-nav-link>
                 </div>
                 @endguest
+
+                @auth
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('artistas.index')" :active="request()->routeIs('artistas.index')" wire:navigate>
+                        {{ __('Artistas') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('cancions.index')" :active="request()->routeIs('cancions.index')" wire:navigate>
+                        {{ __('Canciones') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('albums.index')" :active="request()->routeIs('albums.index')" wire:navigate>
+                        {{ __('Albums') }}
+                    </x-nav-link>
+                </div>
+                @endauth
             </div>
         @auth
 
