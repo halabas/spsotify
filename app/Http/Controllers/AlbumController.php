@@ -83,7 +83,7 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
-        if(!$album->artistas->isEmpty()){
+        if(!$album->artistas->isEmpty() || !$album->canciones->isEmpty() ){
             echo("no se puede borrar");
         }
         else{

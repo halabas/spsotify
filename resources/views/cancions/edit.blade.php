@@ -1,11 +1,17 @@
 <x-app-layout>
-    <form method="POST" action="{{route('artistas.update',$artista)}}" class="mx-auto max-w-2xl">
+    <form method="POST" action="{{route('cancions.update',$cancion)}}" class=" mx-auto max-w-2xl">
         @csrf
         @method('PUT')
         <div class="relative  z-0 w-full mb-5 group">
-            <input type="text" value="{{$artista->nombre}}" name="nombre" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Nombre artista" required />
+            <input value="{{$cancion->titulo}}" type="text" name="titulo" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Titulo Album " required />
         </div>
-
-        <x-primary-button>Editar artista</x-primary-button>
+        <div class="relative  z-0 w-full mb-5 group">
+            <input value={{$cancion->duracion}} type="text" name="foto" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="Foto Album " required />
+        </div>
+        <label for="artistas[]">Artistas</label><br>
+        @foreach ($artistas as $artista)
+        <input type="checkbox" name="artistas[]" value="{{$artista->id}}" {{$cancion->artistas->contains($artista) ? "checked" : ""}} {{$cancion->artistas}}> <span>{{$artista->nombre}}</span> <br>
+        @endforeach
+        <x-primary-button>Crear album</x-primary-button>
       </form>
 </x-app-layout>

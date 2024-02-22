@@ -60,7 +60,7 @@ class CancionController extends Controller
      */
     public function edit(Cancion $cancion)
     {
-        return view('cancions.edit',["album"=>$cancion,"artistas"=>Artista::all()]);
+        return view('cancions.edit',["cancion"=>$cancion,"artistas"=>Artista::all()]);
     }
 
     /**
@@ -76,7 +76,7 @@ class CancionController extends Controller
      */
     public function destroy(Cancion $cancion)
     {
-        if(!$cancion->artistas->isEmpty()){
+        if(!$cancion->artistas->IsEmpty() || !$cancion->albumes->IsEmpty()){
             echo("no se puede borrar");
         }
         else{

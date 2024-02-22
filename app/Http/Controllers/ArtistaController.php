@@ -69,7 +69,13 @@ class ArtistaController extends Controller
      */
     public function destroy(Artista $artista)
     {
-        $artista->delete();
+        if(!$artista->albumes->isEmpty() || !$artista->canciones->isEmpty() ){
+            echo("no se puede borrar");
+        }
+        else{
+            $artista->delete();
+
+        }
         return redirect()-> route('artistas.index');
     }
 
