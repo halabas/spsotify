@@ -11,6 +11,10 @@
         @foreach ($artistas as $artista)
         <input type="checkbox" name="artistas[]" value="{{$artista->id}}"> <span>{{$artista->nombre}}</span> <br>
         @endforeach
+        <label for="artistas[]">Canciones</label><br>
+        @foreach ($cancions as $cancion)
+        <input type="checkbox" name="cancions[]" value="{{$cancion->id}}"> <span>{{$cancion->titulo}}</span> <br>
+        @endforeach
         <x-primary-button>Crear album</x-primary-button>
       </form>
 </x-app-layout>

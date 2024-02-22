@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use App\Models\Artista;
+use App\Models\Cancion;
 use Illuminate\Http\Request;
 
 
@@ -22,7 +23,7 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        return view('albums.create',['artistas' => Artista::all()]);
+        return view('albums.create',['artistas' => Artista::all(),'cancions' => Cancion::all()]);
     }
 
     /**
@@ -38,6 +39,8 @@ class AlbumController extends Controller
         $Album->save();
 
         $Album->artistas()->attach($request->artistas);
+        $Album->canciones()->attach($request->cancions);
+
 
         return redirect()-> route('albums.index');
     }
@@ -73,7 +76,11 @@ class AlbumController extends Controller
 
         $album->artistas()->detach($album->artistas);
 
+        $album->canciones()->detach($album->canciones);
+
         $album->artistas()->attach($request->artistas);
+
+        $album->canciones()->attach($request->cancions);
 
         return redirect()-> route('albums.index');
     }

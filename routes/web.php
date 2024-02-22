@@ -3,8 +3,12 @@
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\ArtistaController;
 use App\Http\Controllers\CancionController;
+use App\Models\Album;
+use App\Models\Artista;
+use App\Models\Cancion;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,12 +23,35 @@ use Illuminate\Http\Request;
 
 Route::get('/', function(){
 
-    return view('welcome',['prueba' => '']);
+    return view('welcome',['trigger' => '']);
 });
 
-Route::post('/antonio', function(request $request){
+Route::post('/busqueda', function(request $request){
+    $cadena = $request->busqueda;
+    $artistas = Artista::all();
+    $albums = Album::all();
+    $cancions = Cancion::all();
+    $reartis = New Collection();
+    $realbums = New Collection();
+    $recancions = New Collection();
 
-    return view('welcome',['prueba'=>$request]);
+    foreach($artistas as $artista){
+        if (str_contains($artista->nombre,$cadena)){
+            $reartis->push($artista);
+        }
+    }
+    foreach($albums as $album){
+        if (str_contains($album->titulo,$cadena)){
+            $realbums->push($album);
+        }
+    }
+    foreach($cancions as $cancion){
+        if (str_contains($cancion->titulo,$cadena)){
+            $recancions->push($cancion);
+        }
+    }
+
+    return view('welcome',['trigger'=>'e' ,'artistas'=>$reartis,'cancions'=>$recancions,'albums'=>$realbums]);
 });
 
 
