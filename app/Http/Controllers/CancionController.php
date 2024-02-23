@@ -31,15 +31,7 @@ class CancionController extends Controller
     public function store(Request $request)
     {
 
-        $Cancion = new Cancion();
-        $Cancion->titulo = $request->titulo;
-        $Cancion->duracion = $request->duracion;
-
-        $Cancion->save();
-
-        $Cancion->artistas()->attach($request->artistas);
-
-        return redirect()-> route('cancions.index');
+         /**livewire */
     }
 
     /**
@@ -67,11 +59,7 @@ class CancionController extends Controller
      */
     public function update(Request $request, Cancion $cancion)
     {
-        $cancion->update(["name"=>$request->name]);
-
-        $cancion->artistas()->detach($cancion->artistas);
-
-        $cancion->artistas()->attach($request->artistas);
+        /**livewire */
 
     }
 
