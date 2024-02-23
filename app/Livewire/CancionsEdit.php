@@ -11,8 +11,6 @@ class CancionsEdit extends Component
     public $albums;
     public $artistas;
     public $cancion;
-    public $titulo;
-    public $duracion;
 
     public $artistasmarcados = [];
 
@@ -57,6 +55,27 @@ class CancionsEdit extends Component
             array_push($this->albumsmarcados,$id);
         }
     }
+
+    public function modificar_titulo($titulo){
+        $this->cancion->titulo = $titulo;
+        $this->cancion->save();
+    }
+
+    public function modificar_duracion($duracion){
+        if(is_numeric($duracion)){
+            $this->cancion->duracion = $duracion;
+            $this->cancion->save();
+
+        }
+
+        else{
+            session()->flash('numeric', 'La duracion solo puede ser un campo numerico');
+            return redirect()->route('cancions.edit',$this->cancion);
+        }
+
+    }
+
+
 
     public function render()
     {

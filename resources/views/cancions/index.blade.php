@@ -38,7 +38,7 @@
 
             </tbody>
         </table>
-        <x-primary-button><a href="{{route('cancions.create')}}">Insertar nuevo artista</a></x-primary-button>
+        <x-primary-button><a href="{{route('cancions.create')}}">Insertar nueva cancion</a></x-primary-button>
     </div>
 
     </x-app-layout>
