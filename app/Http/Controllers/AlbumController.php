@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Artista;
 use App\Models\Cancion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 
 class AlbumController extends Controller
@@ -13,9 +14,12 @@ class AlbumController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('albums.index',['albums'=>Album::all()]);
+
+        return view('albums.index',['albums' =>Album::all(),'valor'=>0,'flecha'=>'']);
+
+
     }
 
     /**

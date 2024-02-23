@@ -6,10 +6,14 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Titulo
+                        <form method="POST" action="{{url('orden_titulo')}}">
+                            @csrf
+                            <input type="hidden" name="valor" value="{{$valor}}">
+                            <input type="submit" value="Titulo {{$flecha}}">
+                        </form>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Duracion total
+                        <a href="{{route('albums.index')}}">Duracion total</a>
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Accion
