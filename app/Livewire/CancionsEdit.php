@@ -57,8 +57,16 @@ class CancionsEdit extends Component
     }
 
     public function modificar_titulo($titulo){
-        $this->cancion->titulo = $titulo;
-        $this->cancion->save();
+
+        if($titulo === ""){
+            session()->flash('numeric', 'El titulo no puede estar vacio');
+            return redirect()->route('cancions.edit',$this->cancion);
+    }
+        else{
+
+            $this->cancion->titulo = $titulo;
+            $this->cancion->save();
+        }
     }
 
     public function modificar_duracion($duracion){
