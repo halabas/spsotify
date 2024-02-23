@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,32 +71,9 @@ Route::resource('artistas',ArtistaController::class);
 
 Route::resource('cancions',CancionController::class);
 
-Route::post('orden_titulo',function(request $request){
-    $valor = $request->valor;
-    if($valor%2==0){
-        $valor++;
-        return view('albums.index',['albums' =>Album::all()->sortBy('titulo'),'valor' => $valor,'flecha'=>'↑']);
-    }
+Route::post('orden_titulo', [AlbumController::class, 'orden_titulo'])->name('albums.orden_titulo');
 
-    else{
-        $valor++;
-        return view('albums.index',['albums' =>Album::all()->sortByDesc('titulo'),'valor' => $valor,'flecha'=>'↓']);
-    }
 
-});
-
-Route::post('orden_duracion',function(request $request){
-    $valor = $request->valor;
-    if($valor%2==0){
-        $valor++;
-        return view('albums.index',['albums' =>Album::all()->sortBy('titulo'),'valor' => $valor,'flecha'=>'↑']);
-    }
-
-    else{
-        $valor++;
-        return view('albums.index',['albums' =>Album::all()->sortByDesc('titulo'),'valor' => $valor,'flecha'=>'↓']);
-    }
-
-});
+Route::post('orden_duracion',[AlbumController::class, 'orden_duracion'])->name('albums.orden_duracion');
 
 require __DIR__.'/auth.php';

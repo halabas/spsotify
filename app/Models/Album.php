@@ -18,4 +18,8 @@ class Album extends Model
     function artistas(){
         return $this->belongsToMany(Artista::class);
     }
+
+     function duracion($cancion){
+        $this->duracion->$cancion->duracion;
+    }
 }
