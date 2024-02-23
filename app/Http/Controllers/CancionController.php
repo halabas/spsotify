@@ -38,8 +38,6 @@ class CancionController extends Controller
         $Cancion->save();
 
         $Cancion->artistas()->attach($request->artistas);
-        $Cancion->albumes()->attach($request->albums);
-
 
         return redirect()-> route('cancions.index');
     }
@@ -61,6 +59,7 @@ class CancionController extends Controller
     public function edit(Cancion $cancion)
     {
         return view('cancions.edit',["cancion"=>$cancion,"artistas"=>Artista::all()]);
+
     }
 
     /**
@@ -69,6 +68,11 @@ class CancionController extends Controller
     public function update(Request $request, Cancion $cancion)
     {
         $cancion->update(["name"=>$request->name]);
+
+        $cancion->artistas()->detach($cancion->artistas);
+
+        $cancion->artistas()->attach($request->artistas);
+
     }
 
     /**
