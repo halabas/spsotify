@@ -8,6 +8,7 @@ use App\Models\Artista;
 use App\Models\Cancion;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -88,7 +89,8 @@ class AlbumController extends Controller
     public function show(Album $album)
     {
 
-        return view('albums.show', ['album' => $album]);
+       $canciones =  DB::table('album_cancion')->where('album_id',$album->id)->paginate(1);
+        return view('albums.show', ['album' => $album,'canciones'=>$canciones]);
     }
 
     /**
