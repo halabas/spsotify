@@ -9,6 +9,9 @@ use App\Models\Cancion;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 
 class AlbumController extends Controller
@@ -53,15 +56,28 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
 
+        $image = $request->file('file_input');
+        $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
+        $image->storeAs('uploads/albums', $name, 'public');
+
+        $image = $request->file('file_input');
+        $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
+        $image->storeAs('uploads/albums', $name, 'public');
+
+        $manager = new ImageManager(new Driver());
+        $imageR = $manager->read(Storage::disk('public')->get('uploads/albums/' . $name));
+        $imageR->scaleDown(300);
+        $rute = Storage::path('public/uploads/albums/' . $name);
+        $imageR->save($rute);
+
         $Album = new Album();
         $Album->titulo = $request->titulo;
-        $Album->foto = $request->foto;
+        $Album->foto = $name;
 
         $Album->save();
 
         $Album->artistas()->attach($request->artistas);
         $Album->canciones()->attach($request->cancions);
-
 
         return redirect()->route('albums.index');
     }
@@ -80,7 +96,7 @@ class AlbumController extends Controller
      */
     public function edit(Album $album)
     {
-        return view('albums.edit', ["album" => $album, "artistas" => Artista::all()]);
+        return view('albums.edit', ["album" => $album, "artistas" => Artista::all(),'cancions' => Cancion::all()]);
     }
 
     /**
@@ -88,8 +104,26 @@ class AlbumController extends Controller
      */
     public function update(Request $request, Album $album)
     {
+        if($request->file('file_input')!=null){
+            $image = $request->file('file_input');
+            $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
+            $image->storeAs('uploads/albums', $name, 'public');
+
+            $image = $request->file('file_input');
+            $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
+            $image->storeAs('uploads/albums', $name, 'public');
+
+            $manager = new ImageManager(new Driver());
+            $imageR = $manager->read(Storage::disk('public')->get('uploads/albums/' . $name));
+            $imageR->scaleDown(100);
+            $rute = Storage::path('public/uploads/albums/' . $name);
+            $imageR->save($rute);
+            $album->foto = $name;
+
+        }
+
+
         $album->titulo = $request->titulo;
-        $album->foto = $request->foto;
 
         $album->save();
 
