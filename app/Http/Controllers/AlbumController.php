@@ -23,6 +23,7 @@ class AlbumController extends Controller
 
      public function index(Request $request)
      {
+
          $albums = Album::with('canciones')->get();
 
          $albums_duracion = [];
@@ -37,7 +38,9 @@ class AlbumController extends Controller
              $albums_duracion[] = new AlbumDuracion($album, $duracionTotal);
          }
 
-         return view('albums.index', ['orden_tit' => 0,'orden_dur'=> 0,'flecha' => '',
+
+
+          return view('albums.index', ['orden_tit' => 0,'orden_dur'=> 0,
              'albums_duracion' => $albums_duracion
          ]);
 
@@ -67,7 +70,7 @@ class AlbumController extends Controller
 
         $manager = new ImageManager(new Driver());
         $imageR = $manager->read(Storage::disk('public')->get('uploads/albums/' . $name));
-        $imageR->scaleDown(300);
+        $imageR->scaleDown(100);
         $rute = Storage::path('public/uploads/albums/' . $name);
         $imageR->save($rute);
 
@@ -153,32 +156,25 @@ class AlbumController extends Controller
         return redirect()->route('albums.index');
     }
 
-    public function orden_titulo(Request $request){
-            $valor = $request->orden_tit;
-            $albums_duracion = collect($request->session()->get('albums_duracion'));
-            if ($valor % 2 == 0) {
-                $valor++;
-                $albums_duracion = $albums_duracion->sortBy('album.titulo');
-                return view('albums.index', ['albums_duracion' => $albums_duracion, 'orden_tit' => $valor,'orden_dur'=> 0, 'flecha' => '↑']);
-            } else {
-                $valor++;
-                $albums_duracion = $albums_duracion->sortByDesc('album.titulo');
-                return view('albums.index', ['albums_duracion' => $albums_duracion, 'orden_tit' => $valor,'orden_dur'=> 0, 'flecha' => '↓']);
-            }
-        }
+    public function ordenar(Request $request){
 
-    public function orden_duracion(Request $request){
-        $valor = $request->orden_dur;
         $albums_duracion = collect($request->session()->get('albums_duracion'));
-        if($valor%2==0){
-            $valor++;
-            return view('albums.index',['albums_duracion' =>$albums_duracion->sortBy('duracion'),'orden_tit' => 0,'orden_dur'=> $valor,'flechita'=>'↑']);
-        }
 
-        else{
-            $valor++;
-            return view('albums.index',['albums_duracion' =>$albums_duracion->sortByDesc('duracion'),'orden_tit' => 0,'orden_dur'=> $valor,'flechita'=>'↓']);
-        }
 
-    }
+            if($request->campo == 'album'){
+                $valor = $request->orden_tit;
+                $orden = $valor % 2 ==0 ? true:false;
+
+            }
+            else{
+                $valor = $request->orden_dur;
+                $orden = $valor % 2 ==0 ? true:false;
+            }
+            $valor++;
+            $albums_duracion = $albums_duracion->sortBy($request->campo,SORT_REGULAR,$orden);
+            return view('albums.index', ['albums_duracion' => $albums_duracion,
+                                         isset($request->orden_tit) ? 'orden_tit' : 'orden_dur' => $valor,
+                                        $request->campo == 'album' ? 'flecha':'flechita' => $valor % 2 ==0 ? '↑':'↓' ]);
+
+        }
     };

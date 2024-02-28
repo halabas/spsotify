@@ -71,9 +71,7 @@ Route::resource('artistas',ArtistaController::class);
 
 Route::resource('cancions',CancionController::class);
 
-Route::post('orden_titulo', [AlbumController::class, 'orden_titulo'])->name('albums.orden_titulo');
+Route::post('ordenar', [AlbumController::class, 'ordenar'])->name('albums.ordenar');
 
-
-Route::post('orden_duracion',[AlbumController::class, 'orden_duracion'])->name('albums.orden_duracion');
 
 require __DIR__.'/auth.php';

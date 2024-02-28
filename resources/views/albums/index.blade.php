@@ -9,16 +9,18 @@
                         @php
                             session()->put('albums_duracion', $albums_duracion);
                         @endphp
-                        <form method="POST" action="{{route('albums.orden_titulo')}}">
+                        <form method="POST" action="{{route('albums.ordenar')}}">
                             @csrf
-                            <input type="hidden" name="orden_tit" value="{{$orden_tit}}">
+                            <input type="hidden" name="campo" value="album">
+                            <input type="hidden" name="orden_tit" value="{{isset($orden_tit) ? $orden_tit:0}}">
                             <input type="submit" value="Titulo {{isset($flecha) ? $flecha:''}}">
                         </form>
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        <form method="POST" action="{{route('albums.orden_duracion')}}">
+                        <form method="POST" action="{{route('albums.ordenar')}}">
                             @csrf
-                            <input type="hidden" name="orden_dur" value="{{$orden_dur}}">
+                            <input type="hidden" name="campo" value="duracion">
+                            <input type="hidden" name="orden_dur" value="{{isset($orden_dur) ? $orden_dur:0}}">
                             <input type="submit" value="Duracion Total {{isset($flechita) ? $flechita:''}}">
                         </form>
                     </th>
