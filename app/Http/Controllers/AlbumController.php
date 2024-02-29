@@ -60,13 +60,13 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
 
-        $image = $request->file('file_input');
-        $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
-        $image->storeAs('uploads/albums', $name, 'public');
 
         $image = $request->file('file_input');
         $name = hash('sha256', time() . $image->getClientOriginalName()) . ".png";
         $image->storeAs('uploads/albums', $name, 'public');
+
+        #guarda la foto original
+        $original = $image->storeAs('uploads/albums/original', $name, 'public');
 
         $manager = new ImageManager(new Driver());
         $imageR = $manager->read(Storage::disk('public')->get('uploads/albums/' . $name));
